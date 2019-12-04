@@ -72,7 +72,7 @@ body {
     font-size: 16px;
   }
 
-  .card button {
+  .card button {  <!-- Add to cart button in the menu -->
     border: none;
     outline: 0;
     padding: 12px;
@@ -87,4 +87,54 @@ body {
   .card button:hover {
     opacity: 0.7;
   }
+
+  .quote2 {
+    color: #fff;
+    font-size: 50px;
+  }
+
+  .row button {  <!-- Add to cart button on the offer page -->
+    border: none;
+    outline: 0;
+    padding: 15px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 25px;
+  }
+
+  .row button:hover {
+    opacity: 0.7;
+  }
+
+  .container-fluid {  <!-- image of the index page -->
+    background-image: url(../img/newest.jpg);
+  }
+
+  .title{        <!-- Position Headline of index page -->
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
+  .title h1{     <!-- Designing heading of index page -->
+    color: #fff;
+    font-size: 90px;
+
+  }
+
+  .quote1 {      <!--  Position of sub Heading of index page -->
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
+  .quote1 h2{     <!--  Designing of sub Heading of index page -->
+    color: #fff;
+    font-size: 45px;
+
+  }
+
 }
