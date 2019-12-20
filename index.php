@@ -6,7 +6,7 @@ if(!empty($_GET["action"])) {
     switch($_GET["action"]) {
         case "add":
             if(!empty($_POST["quantity"])) {
-                $productByCode = $db_handle->runQuery("SELECT * FROM tblproduct WHERE code='" . $_GET["code"] . "'");
+                $productByCode = $db_handle->runQuery("SELECT * FROM product WHERE code='" . $_GET["code"] . "'");
                 $itemArray = array($productByCode[0]["code"]=>array('name'=>$productByCode[0]["name"], 'code'=>$productByCode[0]["code"], 'quantity'=>$_POST["quantity"], 'price'=>$productByCode[0]["price"], 'image'=>$productByCode[0]["image"]));
 
                 if(!empty($_SESSION["cart_item"])) {
@@ -109,7 +109,7 @@ if(!empty($_GET["action"])) {
                 </li>
 
                 <li class="nav-item">
-                    <a href="../gallery.html" class="nav-link">
+                    <a href="offers.php" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Offers
@@ -118,7 +118,7 @@ if(!empty($_GET["action"])) {
                 </li>
 
                 <li class="nav-item">
-                    <a href="../gallery.html" class="nav-link">
+                    <a href="feedback.php" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Feedback
@@ -142,7 +142,7 @@ if(!empty($_GET["action"])) {
                 <div class="col-md-7">
                     <div id="product-grid">
                         <?php
-                        $product_array = $db_handle->runQuery("SELECT * FROM tblproduct ORDER BY id ASC");
+                        $product_array = $db_handle->runQuery("SELECT * FROM product ORDER BY id ASC");
                         if (!empty($product_array)) {
                             foreach($product_array as $key=>$value){
                                 ?>
@@ -215,6 +215,8 @@ if(!empty($_GET["action"])) {
                             <?php
                         }
                         ?>
+                        <br>
+                        <a href="menu.php" class="btnAddAction">Order Now</a>
                     </div>
                 </div>
             </div>
