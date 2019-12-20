@@ -1,54 +1,9 @@
-<?php
-session_start();
-require_once("dbcontroller.php");
-$db_handle = new DBController();
-if(!empty($_GET["action"])) {
-    switch($_GET["action"]) {
-        case "add":
-            if(!empty($_POST["quantity"])) {
-                $productByCode = $db_handle->runQuery("SELECT * FROM tblproduct WHERE code='" . $_GET["code"] . "'");
-                $itemArray = array($productByCode[0]["code"]=>array('name'=>$productByCode[0]["name"], 'code'=>$productByCode[0]["code"], 'quantity'=>$_POST["quantity"], 'price'=>$productByCode[0]["price"], 'image'=>$productByCode[0]["image"]));
-
-                if(!empty($_SESSION["cart_item"])) {
-                    if(in_array($productByCode[0]["code"],array_keys($_SESSION["cart_item"]))) {
-                        foreach($_SESSION["cart_item"] as $k => $v) {
-                            if($productByCode[0]["code"] == $k) {
-                                if(empty($_SESSION["cart_item"][$k]["quantity"])) {
-                                    $_SESSION["cart_item"][$k]["quantity"] = 0;
-                                }
-                                $_SESSION["cart_item"][$k]["quantity"] += $_POST["quantity"];
-                            }
-                        }
-                    } else {
-                        $_SESSION["cart_item"] = array_merge($_SESSION["cart_item"],$itemArray);
-                    }
-                } else {
-                    $_SESSION["cart_item"] = $itemArray;
-                }
-            }
-            break;
-        case "remove":
-            if(!empty($_SESSION["cart_item"])) {
-                foreach($_SESSION["cart_item"] as $k => $v) {
-                    if($_GET["code"] == $k)
-                        unset($_SESSION["cart_item"][$k]);
-                    if(empty($_SESSION["cart_item"]))
-                        unset($_SESSION["cart_item"]);
-                }
-            }
-            break;
-        case "empty":
-            unset($_SESSION["cart_item"]);
-            break;
-    }
-}
-?>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Offers</title>
+    <title>Dmango</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -140,8 +95,77 @@ if(!empty($_GET["action"])) {
 
             <div class="row">
 
-            </div>
+                <div class="col-lg-6">
+                    <?php
+                    require 'connect.php';
+                    $result = mysqli_query($con, 'select * from product');
+                    ?>
+                    <table class="tbl-cart" cellpadding="10" cellspacing="1">
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Code</th>
+                            <th>Price</th>
+                            <th>Buy</th>
+                        </tr>
+                        <?php while($product = mysqli_fetch_object($result)) { ?>
+                            <tr>
+                                <td><?php echo $product->id; ?></td>
+                                <td><?php echo $product->name; ?></td>
+                                <td><?php echo $product->code; ?></td>
+                                <td><?php echo $product->price; ?></td>
+                                <td><a href="cart.php?id=<?php echo $product->id; ?>">Order Now</a></td>
+                            </tr>
+                        <?php } ?>
+                    </table>
+                </div>
 
+                <div class="col-lg-6">
+                    <form method="post">
+                        <table cellpadding="2" cellspacing="2" border="1">
+                            <tr>
+                                <th>Option</th>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Quantity <input type="image" src="http://learningprogramming.net/wp-content/uploads/php-mysql//save.png"> <input
+                                        type="hidden" name="update">
+                                </th>
+                                <th>Sub Total</th>
+                            </tr>
+                            <?php
+                            $cart = unserialize ( serialize ( $_SESSION ['cart'] ) );
+                            $s = 0;
+                            $index = 0;
+                            for($i = 0; $i < count ( $cart ); $i ++) {
+                                $s += $cart [$i]->price * $cart [$i]->quantity;
+                                ?>
+                                <tr>
+                                    <td><a href="cart.php?index=<?php echo $index; ?>"
+                                           onclick="return confirm('Are you sure?')">Delete</a></td>
+                                    <td><?php echo $cart[$i]->id; ?></td>
+                                    <td><?php echo $cart[$i]->name; ?></td>
+                                    <td><?php echo $cart[$i]->price; ?></td>
+                                    <td><input type="text" value="<?php echo $cart[$i]->quantity; ?>"
+                                               style="width: 50px;" name="quantity[]"></td>
+                                    <td><?php echo $cart[$i]->price * $cart[$i]->quantity; ?></td>
+                                </tr>
+                                <?php
+                                $index ++;
+                            }
+                            ?>
+                            <tr>
+                                <td colspan="5" align="right">Sum</td>
+                                <td align="left"><?php echo $s; ?></td>
+                            </tr>
+                        </table>
+                    </form>
+                    <br>
+                    <a class="btnAddAction" href="index.php">Back to Menu</a>
+                    <a class="btnAddAction" href="checkout.php">Order</a>
+                </div>
+
+            </div>
         </div>
 
     </section>
