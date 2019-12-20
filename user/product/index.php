@@ -115,7 +115,6 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
             <div class="page-header clearfix">
                 <h2 class="pull-left">Product Details</h2>
-                <a href="create.php" class="btn btn-success pull-right">Add New Product</a>
             </div>
             <?php
             // Include config file
@@ -145,9 +144,9 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                         echo "<td>" . $row['image'] . "</td>";
                         echo "<td>" . $row['price'] . "</td>";
                         echo "<td>";
-                        echo "<a href='read.php?id=". $row['id'] ."' title='View Record' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a>";
-                        echo "<a href='update.php?id=". $row['id'] ."' title='Update Record' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>";
-                        echo "<a href='delete.php?id=". $row['id'] ."' title='Delete Record' data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>";
+                        echo "<a href='read.php?id=". $row['id'] ."' title='View Record' data-toggle='tooltip'><span class='icon fas fa-eye'></span></a>";
+                        echo "  <a href='update.php?id=". $row['id'] ."' title='Update Record' data-toggle='tooltip'><span class='icon far fa-edit'></span></a>";
+                        echo "  <a href='delete.php?id=". $row['id'] ."' title='Delete Record' data-toggle='tooltip'><span class='icon fas fa-trash-alt'></span></a>";
                         echo "</td>";
                         echo "</tr>";
                     }
